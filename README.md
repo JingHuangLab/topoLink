@@ -59,6 +59,13 @@ The method to efficiently detect topologically linked structure of protein-prote
 * If ```--detail``` in running ```topo_links.py``` or the fourth argument in runing ```batch_topo_links.sh```, a folder contains the selected interface of paired chains, the GLN matrix and the corresponding plot for each of the paired chain.
 
 
+
+## Reference
+
+Yingnan Hou, Tengyu Xie, Liuqing He, Liang Tao, Jing Huang. Topological Links in Predicted Protein Complex Structures Reveal Limitations of AlphaFold. bioRxiv 2022.09.14.507881; doi: https://doi.org/10.1101/2022.09.14.507881.
+
+
+
 ## Acknowledgments
 
 * We would like to thank the [Topoly](https://topoly.cent.uw.edu.pl/#) team for developing the topoly package.
