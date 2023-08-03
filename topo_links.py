@@ -24,10 +24,12 @@ def pre_chain_pairs(pdbfile):
     if " " in chainidlist:
         chainidlist.remove(" ")
     chainpairslist=[]
-    for cidi in chainidlist:
-        chainidlist.remove(cidi)
-        for cidj in chainidlist:
-            x=[cidi,cidj]
+    # filter out non-complexes:
+    if len(chainidlist) < 2:
+        return chainpairslist
+    for cidi in range(len(chainidlist)-1):
+        for cidj in np.arange(cidi+1, len(chainidlist)):
+            x=[chainidlist[cidi], chainidlist[cidj]]
             chainpairslist.append(x)
     return chainpairslist
 
@@ -247,6 +249,11 @@ def topo_link(pdbfile, outpath='/tmp/topo_links/', detail=False, scanend=36, sca
     structure=structure.select("name "+selename)
     chainpairslist=pre_chain_pairs(pdbfile)
     tlnresult={}
+    
+    if not chainpairslist:
+        print("The input data may no be a complex.")
+        return tlnresult
+    
     for chainpairs in chainpairslist:
         chainid1=chainpairs[0]
         chainid2=chainpairs[1]
