@@ -112,10 +112,11 @@ def identify_pierce_atoms(gln2, dict_c1, dict_l1, threshscore, scanbegin, scanen
     maxgln=0
     maxtln=0
     chg1_id_str=''
+    minres=round(2*scanend/3)
     if not gln2:
-        return numlink1, chg1_id_str, maxgln, maxtln
+        return numlink1, chg1_id_str, maxgln, maxtln, minres
     elif numpoints <= scanbegin:
-        return numlink1, chg1_id_str, maxgln, maxtln
+        return numlink1, chg1_id_str, maxgln, maxtln, minres
     else:
         scanend= numpoints -1 if scanend >= numpoints else scanend
         gln2matrix=np.array(gln2.get('matrix'))
@@ -123,7 +124,7 @@ def identify_pierce_atoms(gln2, dict_c1, dict_l1, threshscore, scanbegin, scanen
         min1=np.min(gln2matrix)
         maxgln= max1 if abs(max1) > abs(min1) else min1
         if abs(maxgln) < (threshscore - 0.01):
-            return numlink1, chg1_id_str, maxgln, maxtln
+            return numlink1, chg1_id_str, maxgln, maxtln, minres
         else:
             chg1_id=[]
             for i in range(numpoints-scanbegin):
@@ -134,6 +135,10 @@ def identify_pierce_atoms(gln2, dict_c1, dict_l1, threshscore, scanbegin, scanen
                         id1=i+round((ij1-i)/2)
                         resi1=dict_c1.get(dict_l1.get(id1))
                         chg1_id.append(resi1)
+                        ## find minimal length to form link
+                        lenlink=round((ij1-i+1)/3)
+                        minres=lenlink if lenlink < minres else minres
+
             ## add an opportunity for those almost reach threshold
             if (not chg1_id) and (abs(maxtln) > 0.9*threshscore ):
                 for i in range(numpoints-scanend):
@@ -143,6 +148,10 @@ def identify_pierce_atoms(gln2, dict_c1, dict_l1, threshscore, scanbegin, scanen
                             id1=i+round((ij1-i)/2)
                             resi1=dict_c1.get(dict_l1.get(id1))
                             chg1_id.append(resi1)
+                            ## find minimal length to form link
+                            lenlink=round((ij1-i+1)/3)
+                            minres=lenlink if lenlink < minres else minres
+
             if chg1_id:
                 for l in range(min(chg1_id), max(chg1_id)+1):
                     tempstr=''
@@ -158,7 +167,7 @@ def identify_pierce_atoms(gln2, dict_c1, dict_l1, threshscore, scanbegin, scanen
                                 if l < max(chg1_id):
                                     tempstr=tempstr+"|"
                     chg1_id_str=chg1_id_str+tempstr
-            return numlink1, chg1_id_str, maxgln, maxtln
+            return numlink1, chg1_id_str, maxgln, maxtln, minres
 
 
 def tln_2chains(structure, chainid1, chainid2, discutoff=10, threshscore=0.8,\
@@ -178,7 +187,7 @@ def tln_2chains(structure, chainid1, chainid2, discutoff=10, threshscore=0.8,\
         result={"tln":0, "wholegln":0, "chain_"+chainid1:0, "chain_"+chainid2:0,\
             "resid_chain_"+chainid1:'', "resid_chain_"+chainid2:'', "res_breaks":numbreaks,\
                 "maxgln_"+chainid1:0,"maxgln_"+chainid2:0,\
-                    "maxtln_"+chainid1:0,"maxtln_"+chainid2:0}
+                    "maxtln_"+chainid1:0,"maxtln_"+chainid2:0, "minres":round(2*scanend/3)}
         return result
     else:
         if detail:
@@ -200,17 +209,18 @@ def tln_2chains(structure, chainid1, chainid2, discutoff=10, threshscore=0.8,\
         else:
             gln1 = gln(c1xyz, c2xyz, matrix=True)
             gln2 = gln(c2xyz, c1xyz, matrix=True)
-    numlink1, chg1_id_str, maxgln1, maxtln1=identify_pierce_atoms(gln2, dict_c1,\
+    numlink1, chg1_id_str, maxgln1, maxtln1, minres1=identify_pierce_atoms(gln2, dict_c1,\
         dict_l1, threshscore, scanbegin, scanend)
-    numlink2, chg2_id_str, maxgln2, maxtln2=identify_pierce_atoms(gln1, dict_c2,\
+    numlink2, chg2_id_str, maxgln2, maxtln2, minres2=identify_pierce_atoms(gln1, dict_c2,\
         dict_l2, threshscore, scanbegin, scanend)
     topolinks=max(numlink1, numlink2)
+    minres=min(minres1, minres2)
     wholegln=gln1.get("whole")
     result={"tln":topolinks, "wholegln":wholegln, "chain_"+chainid1:numlink1,\
         "chain_"+chainid2:numlink2, "resid_chain_"+chainid1:chg1_id_str, \
             "resid_chain_"+chainid2:chg2_id_str, "res_breaks":numbreaks,\
                 "maxgln_"+chainid1:maxgln1,"maxgln_"+chainid2:maxgln2,\
-                    "maxtln_"+chainid1:maxtln1,"maxtln_"+chainid2:maxtln2}
+                    "maxtln_"+chainid1:maxtln1,"maxtln_"+chainid2:maxtln2, "minres":minres}
     return result
 
 
