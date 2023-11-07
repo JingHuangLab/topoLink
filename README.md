@@ -64,7 +64,8 @@ This program is a free software: you can redistribute it and/or modify it under 
 
 ## Reference
 
-Yingnan Hou, Tengyu Xie, Liuqing He, Liang Tao, Jing Huang. Topological Links in Predicted Protein Complex Structures Reveal Limitations of AlphaFold. bioRxiv 2022.09.14.507881; doi: https://doi.org/10.1101/2022.09.14.507881.
+Yingnan Hou, Tengyu Xie, Liuqing He, Liang Tao, and Jing Huang*. Topological Links in Predicted Protein Complex Structures Reveal Limitations of AlphaFold. *Communications Biology*, 2023, 6(1): 1098. DOI: https://doi.org/10.1038/s42003-023-05489-4
+  
 
 
 
