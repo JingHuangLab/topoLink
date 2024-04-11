@@ -7,6 +7,9 @@ This program is a free software: you can redistribute it and/or modify it under 
 ## Requirements
 
 * Python 3 (3.5 or later)
+* topoly (between 0.9.24 and 1.0.0)
+* ProDy
+
 
 #### Setup Conda Environment (Optional)
 
@@ -15,7 +18,7 @@ This program is a free software: you can redistribute it and/or modify it under 
 
 #### Install dependent packages
 
-*   **topoly**: pip install topoly
+*   **topoly**: pip install topoly==1.0.0
 *   **ProDy**: pip install ProDy
 
 ## Running
