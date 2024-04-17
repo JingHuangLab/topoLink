@@ -60,7 +60,7 @@ This program is a free software: you can redistribute it and/or modify it under 
 
 ## Interpreting the results
 
-#### summary
+#### Summary
 
 * For using ```topo_links.py```, the path and file name of the summaried results are specified by the ```-out``` and ```-sf``` parameters respectively. For using ```batch_topo_links.sh```, the path and file name of the summaried results are specified by the second and third arguments respectively. By default, you can find the results at ```/tmp/topo_links/summary_topo_links.txt```.
   
@@ -91,7 +91,7 @@ Let's take the summaried results of ```./examples/glnB-gspJ.pdb``` as an example
 * If ```--detail``` in running ```topo_links.py``` or the fourth argument in runing ```batch_topo_links.sh```, a folder named by the analyzed file name will be generated, containing files as following (e.g. a protein contains chain A and chain B):
   
   * The file ```inter_selected_AB.pdb``` stores the isolated interface for chain A and chain B. All chain A and chain B (including the whole chain A and the whole chain B) in this README refer to their parts at the interface.
-  * For ```AB-glnmap-A.png```, ```AB``` in the file name means that the paired chains are chain A and chain B; ```-A``` in the file name means that this glnmap is for chain A. For this figure, each point of the heatmap represents a fragment of chain A (the row represents the starting atom index, and the column represents the ending atom index). The color represents the GLN value between this fragment and chain B. The larger the absolute GLN value, the more intense the degree of entanglement. By default, when the absolute value is greater than 0.8, the corresponding fragment will be judged to have a topological link. Similar, ```AB-glnmap-B.png``` means that the heatmap of the GLN values for chain B.
+  * For ```AB-glnmap-A.png```, ```AB``` in the file name means that the paired chains are chain A and chain B; ```-A``` in the file name means that this glnmap is for chain A. For this figure, each point of the heatmap represents a fragment of chain A (the row represents the starting atom index, and the column represents the ending atom index). The color represents the GLN value between this fragment and chain B. The larger the absolute GLN value, the more intense the degree of entanglement. By default, when the absolute value is greater than 0.8, the corresponding fragment (whose number of atoms between ```-sb``` to ```-se```) will be judged to have a topological link. Similarly, ```AB-glnmap-B.png``` means that the heatmap of the GLN values for chain B.
   * The ```AB-matrix-A.npy``` file stores the GLN value corresponding to the figure ```AB-glnmap-A.png```. The ```AB-matrix-B.npy``` file stores the GLN value corresponding to the figure ```AB-glnmap-B.png```.
 
 
